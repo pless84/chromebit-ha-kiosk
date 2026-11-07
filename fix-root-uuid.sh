@@ -27,6 +27,8 @@ echo "root filesystem UUID: $FSUUID"
 
 trap 'mountpoint -q "$MNT" && umount "$MNT" || true' EXIT
 for p in "$KPART" "$RPART"; do umount "$p" 2>/dev/null || true; done
+[ ! -L "$WORK" ] && [ "$(stat -c %u "$WORK")" = 0 ] && [ $(( 0$(stat -c %a "$WORK") & 022 )) = 0 ] \
+  || die "$WORK must be a directory owned by root and not group/world-writable"
 mkdir -p "$MNT"
 mount "$RPART" "$MNT"
 echo "UUID=$FSUUID  /  ext4  defaults,noatime,commit=60  0 1" > "$MNT/etc/fstab"

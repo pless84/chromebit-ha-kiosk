@@ -113,7 +113,10 @@ esac
 EOF
 chmod 755 /usr/local/bin/kiosk-browser
 
-cat > "/home/$KIOSK_USER/.bash_profile" <<'EOF'
+# Files in the kiosk user's home are written as that user, so root never follows a symlink planted there.
+as_kiosk_write() { runuser -u "$KIOSK_USER" -- sh -c 'mkdir -p "$(dirname "$1")" && cat > "$1"' _ "$1"; }
+
+as_kiosk_write "/home/$KIOSK_USER/.bash_profile" <<'EOF'
 # Only on the physical console: run the kiosk, restart it if it exits.
 if [ "$(tty)" = /dev/tty1 ] && [ -z "$WAYLAND_DISPLAY" ]; then
   export XCURSOR_THEME=invisible XCURSOR_SIZE=24   # touch screen: no visible mouse pointer
@@ -123,7 +126,6 @@ if [ "$(tty)" = /dev/tty1 ] && [ -z "$WAYLAND_DISPLAY" ]; then
   done
 fi
 EOF
-chown "$KIOSK_USER:$KIOSK_USER" "/home/$KIOSK_USER/.bash_profile"
 
 # ---------- invisible cursor ----------
 # cage and Chromium both draw the pointer from the XCURSOR_THEME. This theme's every cursor is
@@ -142,9 +144,7 @@ for n in left_ptr arrow top_left_arrow pointer hand hand1 hand2 pointing_hand te
 done
 printf '[Icon Theme]\nName=invisible\nComment=Transparent cursors for the kiosk\n' > /usr/share/icons/invisible/index.theme
 # cage may ask for the "default" theme instead of $XCURSOR_THEME: make the kiosk user's default invisible too
-install -d -o "$KIOSK_USER" -g "$KIOSK_USER" "/home/$KIOSK_USER/.icons/default"
-printf '[Icon Theme]\nInherits=invisible\n' > "/home/$KIOSK_USER/.icons/default/index.theme"
-chown "$KIOSK_USER:$KIOSK_USER" "/home/$KIOSK_USER/.icons/default/index.theme"
+printf '[Icon Theme]\nInherits=invisible\n' | as_kiosk_write "/home/$KIOSK_USER/.icons/default/index.theme"
 # The HDMI port's CEC remote input (dw_hdmi) reports itself as a pointer, which makes cage
 # show a mouse cursor. Nothing here uses CEC remotes, so libinput ignores it.
 cat > /etc/udev/rules.d/90-kiosk-ignore-hdmi-input.rules <<'EOF'

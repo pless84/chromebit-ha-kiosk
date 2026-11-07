@@ -19,7 +19,6 @@ set -euo pipefail
 KIMG="${1:-}"
 EMMC=/dev/mmcblk0
 MNT=/mnt/emmc
-WORK=/var/tmp/emmc-install
 KSTART=8192; KSIZE=65536                  # 32 MiB kernel partition, right after the protected area
 RSTART=$((KSTART + KSIZE))
 die() { echo "ERROR: $*" >&2; exit 1; }
@@ -60,8 +59,7 @@ read -r -p "Type ERASE to continue: " ok
 [ "$ok" = ERASE ] || die "aborted"
 
 step "writing partition table"
-mkdir -p "$WORK"
-rm -f "$WORK/disk.img"
+WORK=$(mktemp -d /var/tmp/emmc-install.XXXXXX)   # private (0700), fresh name: no planted files
 truncate -s $((SECTORS * 512)) "$WORK/disk.img"      # sparse, same size as the eMMC
 cgpt create "$WORK/disk.img"
 cgpt add -i 1 -t kernel -b $KSTART -s $KSIZE -l KERN-A -S 1 -T 0 -P 15 "$WORK/disk.img"
@@ -85,7 +83,7 @@ rm -f "$WORK/kcheck.img"
 
 step "copying root filesystem (a few minutes)"
 LOOP=$(losetup -f --show -o $((RSTART * 512)) --sizelimit $((RSIZE * 512)) "$EMMC")
-trap 'mountpoint -q "$MNT" && umount "$MNT"; losetup -d "$LOOP" 2>/dev/null || true' EXIT
+trap 'mountpoint -q "$MNT" && umount "$MNT"; losetup -d "$LOOP" 2>/dev/null; rm -rf "$WORK"' EXIT
 mkfs.ext4 -F -q -L chromebit-root -U "$FSUUID" "$LOOP"
 mkdir -p "$MNT"
 mount "$LOOP" "$MNT"

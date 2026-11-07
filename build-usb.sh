@@ -90,7 +90,11 @@ in_chroot() {
     DEBIAN_FRONTEND=noninteractive "$@"
 }
 
-mkdir -p "$WORK" "$MNT"
+mkdir -p -m 755 "$WORK"
+# $WORK holds a root filesystem and a venv that run as root: refuse one another user could have planted
+[ ! -L "$WORK" ] && [ "$(stat -c %u "$WORK")" = 0 ] && [ $(( 0$(stat -c %a "$WORK") & 022 )) = 0 ] \
+  || die "$WORK must be a directory owned by root and not group/world-writable"
+mkdir -p "$MNT"
 umount_chroot   # in case an earlier run was killed
 
 # ---------- 1. base system ----------
