@@ -1,0 +1,18 @@
+# Wi-Fi/Bluetooth firmware copied from ChromeOS: not freely redistributable, supply your own
+firmware/*
+!firmware/README.md
+
+# personal settings and notes
+local.env
+*.local.*
+NOTES.local.md
+
+# build output and tools
+*.img
+*.bin
+/venv/
+
+# editor / agent state
+.claude/
+.remember/
+.omc/

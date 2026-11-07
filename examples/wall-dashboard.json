@@ -1,0 +1,334 @@
+{
+  "title": "Wall",
+  "views": [
+    {
+      "title": "Home",
+      "path": "home",
+      "type": "sections",
+      "max_columns": 4,
+      "dense_section_placement": true,
+      "sections": [
+        {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "clock",
+              "clock_size": "large",
+              "time_format": "24",
+              "grid_options": {
+                "columns": 12,
+                "rows": 2
+              }
+            },
+            {
+              "type": "weather-forecast",
+              "entity": "weather.forecast_home",
+              "forecast_type": "daily",
+              "show_forecast": true,
+              "show_current": true,
+              "grid_options": {
+                "columns": 12
+              }
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Living room",
+              "icon": "mdi:sofa"
+            },
+            {
+              "type": "tile",
+              "entity": "light.living_room",
+              "name": "Living room",
+              "features": [
+                {
+                  "type": "light-brightness"
+                }
+              ],
+              "features_position": "bottom",
+              "grid_options": {
+                "columns": 12,
+                "rows": 2
+              }
+            },
+            {
+              "type": "tile",
+              "entity": "light.living_room_floor_lamp",
+              "name": "Floor lamp"
+            },
+            {
+              "type": "tile",
+              "entity": "light.living_room_pendant",
+              "name": "Pendant"
+            },
+            {
+              "type": "tile",
+              "entity": "scene.living_room_relax",
+              "name": "Relax",
+              "icon": "mdi:sofa-single",
+              "hide_state": true,
+              "vertical": true,
+              "grid_options": {
+                "columns": 3,
+                "rows": 2
+              },
+              "tap_action": {
+                "action": "perform-action",
+                "perform_action": "scene.turn_on",
+                "target": {
+                  "entity_id": "scene.living_room_relax"
+                }
+              }
+            },
+            {
+              "type": "tile",
+              "entity": "scene.living_room_read",
+              "name": "Read",
+              "icon": "mdi:book-open-variant",
+              "hide_state": true,
+              "vertical": true,
+              "grid_options": {
+                "columns": 3,
+                "rows": 2
+              },
+              "tap_action": {
+                "action": "perform-action",
+                "perform_action": "scene.turn_on",
+                "target": {
+                  "entity_id": "scene.living_room_read"
+                }
+              }
+            },
+            {
+              "type": "tile",
+              "entity": "scene.living_room_nightlight",
+              "name": "Night",
+              "icon": "mdi:weather-night",
+              "hide_state": true,
+              "vertical": true,
+              "grid_options": {
+                "columns": 3,
+                "rows": 2
+              },
+              "tap_action": {
+                "action": "perform-action",
+                "perform_action": "scene.turn_on",
+                "target": {
+                  "entity_id": "scene.living_room_nightlight"
+                }
+              }
+            },
+            {
+              "type": "tile",
+              "entity": "scene.living_room_energize",
+              "name": "Energize",
+              "icon": "mdi:white-balance-sunny",
+              "hide_state": true,
+              "vertical": true,
+              "grid_options": {
+                "columns": 3,
+                "rows": 2
+              },
+              "tap_action": {
+                "action": "perform-action",
+                "perform_action": "scene.turn_on",
+                "target": {
+                  "entity_id": "scene.living_room_energize"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Kids room",
+              "icon": "mdi:bed-single"
+            },
+            {
+              "type": "tile",
+              "entity": "light.kids_room_ceiling",
+              "name": "Ceiling",
+              "features": [
+                {
+                  "type": "light-brightness"
+                }
+              ],
+              "features_position": "bottom",
+              "grid_options": {
+                "columns": 12,
+                "rows": 2
+              }
+            },
+            {
+              "type": "tile",
+              "entity": "light.kids_room_lamp",
+              "name": "Lamp",
+              "grid_options": {
+                "columns": 12
+              }
+            },
+            {
+              "type": "heading",
+              "heading": "Outside and more",
+              "icon": "mdi:tree"
+            },
+            {
+              "type": "tile",
+              "entity": "light.garden_led_strip",
+              "name": "Garden LEDs",
+              "features": [
+                {
+                  "type": "light-brightness"
+                }
+              ],
+              "features_position": "bottom",
+              "grid_options": {
+                "columns": 12,
+                "rows": 2
+              }
+            },
+            {
+              "type": "tile",
+              "entity": "light.hallway",
+              "name": "Hallway",
+              "grid_options": {
+                "columns": 12
+              }
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Music",
+              "icon": "mdi:music"
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.kitchen_speaker",
+              "grid_options": {
+                "columns": 12
+              }
+            },
+            {
+              "type": "tile",
+              "entity": "media_player.spotify",
+              "name": "Spotify",
+              "features": [
+                {
+                  "type": "media-player-volume-slider"
+                }
+              ],
+              "features_position": "bottom",
+              "grid_options": {
+                "columns": 12,
+                "rows": 2
+              }
+            },
+            {
+              "type": "tile",
+              "entity": "media_player.living_room_speaker",
+              "name": "Living room"
+            },
+            {
+              "type": "tile",
+              "entity": "media_player.bedroom_speaker",
+              "name": "Bedroom"
+            },
+            {
+              "type": "tile",
+              "entity": "media_player.playroom_speaker",
+              "name": "Playroom"
+            },
+            {
+              "type": "tile",
+              "entity": "media_player.tv",
+              "name": "TV"
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "column_span": 2,
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Calendar",
+              "icon": "mdi:calendar"
+            },
+            {
+              "type": "calendar",
+              "initial_view": "listWeek",
+              "entities": [
+                "calendar.family",
+                "calendar.birthdays",
+                "calendar.personal",
+                "calendar.partner"
+              ],
+              "grid_options": {
+                "columns": 24,
+                "rows": 7
+              }
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Shopping",
+              "icon": "mdi:cart"
+            },
+            {
+              "type": "todo-list",
+              "entity": "todo.shopping_list",
+              "hide_completed": true,
+              "grid_options": {
+                "columns": 12,
+                "rows": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Laundry",
+              "icon": "mdi:washing-machine"
+            },
+            {
+              "type": "tile",
+              "entity": "binary_sensor.washing_machine_power",
+              "name": "Washer",
+              "icon": "mdi:washing-machine",
+              "grid_options": {
+                "columns": 12
+              }
+            },
+            {
+              "type": "tile",
+              "entity": "binary_sensor.dryer_power",
+              "name": "Dryer",
+              "icon": "mdi:tumble-dryer",
+              "grid_options": {
+                "columns": 12
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
